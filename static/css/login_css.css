@@ -1,0 +1,56 @@
+/* Custom Navbar */
+.custom-navbar {
+    background-color: #f8f9fa;
+    padding: 10px 0;
+}
+
+.custom-navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.custom-navbar-links {
+    display: flex;
+    gap: 15px;
+}
+
+.custom-nav-link {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.custom-nav-link:hover {
+    text-decoration: underline;
+}
+
+/* Custom Form */
+.custom-form-container {
+    margin-top: 50px;
+    max-width: 500px;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-form-group {
+    margin-bottom: 15px;
+}
+
+.custom-form-label {
+    font-weight: bold;
+}
+
+.custom-btn-submit {
+    background-color: #007bff !important;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.custom-btn-submit:hover {
+    background-color: #0056b3 !important;
+}

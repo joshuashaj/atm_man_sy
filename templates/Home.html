@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block links %}
+    <a class="nav-link" href="changepassword/{{ user.id }}">Change Password</a>
+    <a class="nav-link" href="withdraw">Send Money</a>
+{% endblock%}
+
+{% block content %}<div class="container mt-4">
+        <h2 class="text-center mb-4">Account Information</h2>
+        <table class="table table-bordered">
+            <tr>
+                <td>Name:</td>
+                <td>{{ user.full_name }}</td>
+            </tr>
+            <tr>
+                <td>Account Number:</td>
+                <td>{{ user.account_number }}</td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <td>Phone Number:</td>
+                <td>{{ user.phone_number }}</td>
+            </tr>
+            <tr>
+                <td>Address:</td>
+                <td>{{ user.address }}</td>
+            </tr>
+            <tr>
+                <td>Account Type:</td>
+                <td>{{ user.account_type }}</td>
+            </tr>
+            <tr>
+                <td>Deposit:</td>
+                <td>{{ user.deposit }}</td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><i>Protected</i></td>
+            </tr>
+        </table>
+
+        <div class="text-center mt-4">
+            <a href="logout" class="btn btn-danger">Logout</a>
+        </div>
+    </div>
+{% endblock %}
+

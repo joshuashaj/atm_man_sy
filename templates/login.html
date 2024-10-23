@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Login to a Bank Account{% endblock %}
+
+{% block links %}
+    <a class="custom-nav-link" href="/">Back</a>
+    <a class="custom-nav-link" href="">Forgot Password</a>
+{% endblock%}
+
+{% block content %}
+    <div class="container custom-form-container my-6 ">
+        <h2 class="text-center">Login to a Bank Account</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="custom-form-group">
+                <label for="accountnumber" class="custom-form-label">Account Number *</label>
+                <input type="text" class="form-control" id="accountnumber" name="accountnumber" placeholder="Enter your account number" required>
+            </div>
+            <div class="custom-form-group">
+                <label for="password" class="custom-form-label">Password *</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            {% if error %}
+            <p class="error-message">{{ error }}</p>
+            {% endif %}
+
+            <button type="submit" class="btn btn-primary custom-btn-submit">Submit</button>
+        </form>
+    </div>
+
+{% endblock %}
+
+
+
+
