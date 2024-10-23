@@ -8,7 +8,11 @@ from django.contrib.auth.hashers import check_password, make_password
 
 
 # Create your views here.
+
+def index(request):
+    return render(request,"index.html")
 def openaccount(request):
+    all_user = BankAccountUser.objects.all()
     # This view handles the account opening process
     if request.method == 'POST':
         # Collecting form data
@@ -27,9 +31,6 @@ def openaccount(request):
                 deposit = float(deposit)  # Ensure deposit is a valid number
 
                 # Check if an account with the same email or phone number already exists
-                if BankAccountUser.objects.filter(email=email).exists():
-                    messages.error(request, 'An account with this email already exists.')
-                    return redirect('openaccount')
                 if BankAccountUser.objects.filter(phone_number=phone_number).exists():
                     messages.error(request, 'An account with this phone number already exists.')
                     return redirect('openaccount')
@@ -65,7 +66,7 @@ def openaccount(request):
         else:
             messages.error(request, 'Please fill in all required fields and agree to the terms.')
 
-    return render(request, 'openaccount.html')
+    return render(request, 'openaccount.html',{"users":all_user})
 
 
 def save_to_excel(name, account_number, email, password):

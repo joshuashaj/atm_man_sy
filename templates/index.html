@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Homepage</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login_css.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    {% block nav %}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">YourBank</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="openaccount">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% endblock %}
+
+    {% block content %}
+    <!-- Main Content -->
+    <header class="hero bg-primary text-white text-center">
+        <div class="container">
+            <h1 class="display-4">Welcome to YourBank</h1>
+            <p class="lead">Your trusted partner in financial success.</p>
+            <a href="login" class="btn btn-light btn-lg me-3">Login</a>
+            <a href="openaccount" class="btn btn-outline-light btn-lg">Register</a>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="features py-5 text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Secure Banking</h3>
+                    <p>Your security is our top priority with multi-layered protection.</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>Easy Transactions</h3>
+                    <p>Transfer money, pay bills, and much more with ease.</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>24/7 Support</h3>
+                    <p>We're always here for you, anytime you need assistance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+
+    <!-- Footer -->
+    <footer class="py-3 bg-dark text-white text-center">
+        <div class="container">
+            <p>&copy; 2024 YourBank. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <<!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

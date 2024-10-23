@@ -4,12 +4,17 @@
 
 {% block links %}
     <a class="custom-nav-link" href="/">Back</a>
-    <a class="custom-nav-link" href="">Forgot Password</a>
+    <a class="custom-nav-link" href="forget_password">Forgot Password</a>
 {% endblock%}
 
 {% block content %}
     <div class="container custom-form-container my-6 ">
         <h2 class="text-center">Login to a Bank Account</h2>
+        {% for msg in messages %}
+        {{ msg }}
+        {% endfor %}
+        <p class="error-message">{{ error }}</p>
+
         <form method="POST">
             {% csrf_token %}
             <div class="custom-form-group">

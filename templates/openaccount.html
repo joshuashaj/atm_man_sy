@@ -1,11 +1,26 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
 
-{% block title %}Open a Bank Account{% endblock %}
-
-{% block links %}
-    <a class="custom-nav-link" href="login">Login</a>
-    <a class="custom-nav-link" href="forget_password">Forgot Password</a>
-{% endblock%}
+{% block nav %}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">YourBank</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Back</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% endblock %}
 
 {% block content %}
     <div class="container1">
@@ -18,11 +33,13 @@
             </div>
             <div class="form-group">
                 <label for="email" class="form-label">Email address *</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required onkeyup="check_email()">
+                <small id="mail"></small>
             </div>
             <div class="form-group">
                 <label for="phoneNumber" class="form-label">Phone Number *</label>
-                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" required>
+                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" required onkeyup="check_phone()">
+                <small id="phone"></small>
             </div>
             <div class="form-group">
                 <label for="address" class="form-label">Address *</label>
@@ -47,9 +64,25 @@
             {% for msg in messages %}
             <div class="message">{{ msg }}</div>
             {% endfor %}
-            <button type="submit" class="btn-submit1">Submit</button>
+            <button type="submit" class="btn-submit1" id="submit">Submit</button>
         </form>
     </div>
+
+    <script>
+        // Populate the array with account numbers
+        var emails = [
+            {% for user in users %}
+            "{{ user.email }}",
+            {% endfor %}
+        ];
+
+        var phone = [
+            {% for user in users %}
+            "{{ user.phone_number }}",
+            {% endfor %}
+        ];
+
+    </script>
 {% endblock %}
 
 
