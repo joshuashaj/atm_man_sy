@@ -11,6 +11,7 @@ from django.contrib.auth.hashers import check_password, make_password
 
 def index(request):
     return render(request,"index.html")
+
 def openaccount(request):
     all_user = BankAccountUser.objects.all()
     # This view handles the account opening process
@@ -128,8 +129,11 @@ def login(request):
 
 
 def withdraw(request):
+    if 'accountnumber' in request.session:
+        accountnumber = request.session['accountnumber']
+        user = BankAccountUser.objects.get(account_number=accountnumber)
     # Placeholder for withdraw functionality
-    return render(request, 'withdraw.html')
+    return render(request, 'withdraw.html',{'user': user})
 
 
 def home(request):

@@ -1,67 +1,53 @@
 {% extends 'base.html' %}
 
 {% block links %}
-    <a class="custom-nav-link" href="home">Back</a>
-    <a class="custom-nav-link" href="">Forgot Password</a>
+    <a class="nav-link" href="forget_password">Forgot Password</a>
+    <a class="nav-link" href="withdraw">Send Money</a>
 {% endblock%}
 
+
 {% block content %}
-    <div class="container my-5">
-        <h2 class="text-center">Withdraw</h2>
+    <div class="container1 w-50">
+        <h2 class="text-center1">Open a Bank Account</h2>
         <form method="POST">
             {% csrf_token %}
-            <div class="mb-3">
+            <div class="form-group">
                 <label for="accountnumber" class="form-label">Account Number *</label>
-                <input type="text" class="form-control" id="accountnumber" name="accountnumber" placeholder="Enter your account number" required>
+                <input type="text" class="form-control" id="accountnumber" name="accountnumber" placeholder="Enter your account number" required onkeyup="withdraw()">
+                <small style="color:red" id="checkaccountnumber"></small>
             </div>
-            <div class="mb-3">
+            <div class="form-group">
                 <label for="amount" class="form-label">Amount *</label>
-                <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter the amount" required>
+                <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter the amount" required onkeyup="withdraw()">
+                <small style="color:red" id="checkamount"></small>
             </div>
-            <div class="mb-3">
+            <div class="form-group">
                 <label for="password" class="form-label">Password *</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Enter the password" required>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                {% for msg in messages %}
+                <small style="color:red" id="checkpassword">msg</small>
+                {% endfor %}
             </div>
 
-            <button type="submit" class="btn-submit1">Submit</button>
+
+            <button type="submit" class="btn-submit1" id="submit">Submit</button>
         </form>
     </div>
+
+    <script>
+        var account_number = "{{ user.account_number }}";
+        console.log(account_number);
+        var balance = parseFloat("{{ user.deposit }}");
+        let accountnumber = document.getElementById("accountnumber");
+        let amount = document.getElementById("amount");
+        let password = document.getElementById("password");
+        let submit = document.getElementById("submit");
+
+        amount.disabled = true;
+        password.disabled = true;
+        submit.disabled = true;
+
+    </script>
 {% endblock %}
 
 
-<html lang="en">
-
-{% load static %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open a Bank Account</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/styles.css'%}">
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Bank</a>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Back</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/forgotpassword">Forgot Password</a> <!-- Added link -->
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
