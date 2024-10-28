@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from atm.models import BankAccountUser
+from atm.utils import save_to_excel, save_transaction_to_excel
 from django.contrib import messages
-import random, openpyxl
-from openpyxl.styles import Font, PatternFill
-from openpyxl.utils.exceptions import InvalidFileException
 from django.contrib.auth.hashers import check_password, make_password
+from atm.models import BankAccountUser, Transactions
+import random
 
 
 # Create your views here.
@@ -52,6 +51,8 @@ def openaccount(request):
                 )
                 new_account.save()
 
+                print(new_account)
+
                 # Save user details to an Excel file
                 save_to_excel(name, new_account.account_number, email, password)
 
@@ -68,39 +69,6 @@ def openaccount(request):
             messages.error(request, 'Please fill in all required fields and agree to the terms.')
 
     return render(request, 'openaccount.html',{"users":all_user})
-
-
-def save_to_excel(name, account_number, email, password):
-    """Saves user data to an Excel file."""
-    try:
-        # Try to load the existing workbook
-        workbook = openpyxl.load_workbook('input_data.xlsx')
-        sheet = workbook.active
-    except FileNotFoundError:
-        # Create a new workbook and sheet if it doesn't exist
-        workbook = openpyxl.Workbook()
-        sheet = workbook.active
-        sheet.title = 'User Input'
-
-        # Add headers to the new sheet
-        headers = ['Name', 'Account Number', 'Email', 'Password']
-        sheet.append(headers)
-
-        # Format headers
-        for cell in sheet[1]:
-            cell.font = Font(bold=True)  # Make header bold
-            cell.fill = PatternFill(start_color='FFFF00', end_color='FFFF00', fill_type='solid')  # Yellow background
-
-    except InvalidFileException:
-        print("The file 'input_data.xlsx' is corrupted or invalid.")
-        return
-
-    # Append the new user data to the next row
-    sheet.append([name, account_number, email, password])
-
-    # Save the workbook
-    workbook.save('input_data.xlsx')
-    print("Data saved to input_data.xlsx")
 
 
 def success(request):
@@ -131,9 +99,45 @@ def login(request):
 def withdraw(request):
     if 'accountnumber' in request.session:
         accountnumber = request.session['accountnumber']
-        user = BankAccountUser.objects.get(account_number=accountnumber)
-    # Placeholder for withdraw functionality
-    return render(request, 'withdraw.html',{'user': user})
+        cur_user = get_object_or_404(BankAccountUser, account_number=accountnumber)
+
+        if request.method == 'POST':
+            password = request.POST.get('password')
+            withdrawal_amount = request.POST.get('amount')
+
+            # Check if the password is correct
+            if check_password(password, cur_user.password):
+                try:
+                    withdrawal_amount = float(withdrawal_amount)
+                    balance = float(cur_user.deposit)
+
+                    # Ensure sufficient balance
+                    if balance >= withdrawal_amount:
+                        cur_user.deposit = balance - withdrawal_amount
+                        cur_user.save()
+
+                        # Record the transaction
+                        transaction = Transactions(
+                            user=cur_user,
+                            transaction_type='withdrawal',
+                            amount=withdrawal_amount
+                        )
+                        transaction.save()
+
+                        # Optionally, update Excel record
+                        save_transaction_to_excel(cur_user.full_name, cur_user.account_number, 'withdrawal', withdrawal_amount)
+
+                        messages.success(request, 'Withdrawal successful!')
+                        return redirect('home')
+                    else:
+                        messages.error(request, 'Insufficient balance.')
+                except ValueError:
+                    messages.error(request, 'Invalid withdrawal amount.')
+            else:
+                messages.error(request, 'Incorrect password.')
+
+    return render(request, 'withdraw.html', {'user': cur_user})
+
 
 
 def home(request):
@@ -192,6 +196,7 @@ def changepassword(request, id):
 
     # If the user is not logged in, redirect to login
     return redirect('login')
+
 
 def forget_password(request):
     all_user = BankAccountUser.objects.all()
